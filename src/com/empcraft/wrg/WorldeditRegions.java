@@ -18,15 +18,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.empcraft.wrg.listener.PlayerListener;
-import com.empcraft.wrg.regions.FactionsFeature;
-import com.empcraft.wrg.regions.GriefPreventionFeature;
-import com.empcraft.wrg.regions.OldFactionsFeature;
-import com.empcraft.wrg.regions.PreciousStonesFeature;
-import com.empcraft.wrg.regions.RegiosFeature;
-import com.empcraft.wrg.regions.ResidenceFeature;
-import com.empcraft.wrg.regions.TownyFeature;
 import com.empcraft.wrg.regions.WorldguardFeature;
-import com.empcraft.wrg.util.FlagHandler;
 import com.empcraft.wrg.util.MainUtil;
 import com.empcraft.wrg.util.RegionHandler;
 import com.empcraft.wrg.util.VaultHandler;
@@ -106,60 +98,6 @@ public final class WorldeditRegions extends JavaPlugin implements Listener {
             RegionHandler.regions.add(wgf);
             MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into WorldGuard");
 
-            if (config.getBoolean("worldguard.require-custom-flag")) {
-                final Plugin wgCustomFlags = getServer().getPluginManager().getPlugin("WGCustomFlags");
-                if ((wgCustomFlags != null) && wgCustomFlags.isEnabled()) {
-                    new FlagHandler(wgCustomFlags);
-                    MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into WGCustomFlags");
-                }
-            }
-
-        }
-        final Plugin townyPlugin = getServer().getPluginManager().getPlugin("Towny");
-        if ((townyPlugin != null) && townyPlugin.isEnabled()) {
-            final TownyFeature tf = new TownyFeature(townyPlugin, this);
-            RegionHandler.regions.add(tf);
-            MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into Towny");
-        }
-        final Plugin regiosPlugin = getServer().getPluginManager().getPlugin("Regios");
-        if ((regiosPlugin != null) && regiosPlugin.isEnabled()) {
-            final RegiosFeature rgf = new RegiosFeature(regiosPlugin, this);
-            RegionHandler.regions.add(rgf);
-            MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into Regios");
-        }
-        final Plugin factionsPlugin = getServer().getPluginManager().getPlugin("Factions");
-        Plugin mCorePlugin = getServer().getPluginManager().getPlugin("MassiveCore");
-        if(mCorePlugin == null) mCorePlugin = getServer().getPluginManager().getPlugin("MassiveCore");
-        if ((factionsPlugin != null) && factionsPlugin.isEnabled()) {
-            if ((mCorePlugin != null) && mCorePlugin.isEnabled()) {
-                final FactionsFeature ff = new FactionsFeature(factionsPlugin, this);
-                RegionHandler.regions.add(ff);
-                MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into Factions");
-            }
-            else {
-                final OldFactionsFeature ff2 = new OldFactionsFeature(factionsPlugin, this);
-                RegionHandler.regions.add(ff2);
-                MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into Factions (older edition)");
-            }
-        }
-        final Plugin residencePlugin = getServer().getPluginManager().getPlugin("Residence");
-        if ((residencePlugin != null) && residencePlugin.isEnabled()) {
-            final ResidenceFeature rf = new ResidenceFeature(residencePlugin, this);
-            RegionHandler.regions.add(rf);
-            MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into Residence");
-        }
-        final Plugin griefpreventionPlugin = getServer().getPluginManager().getPlugin("GriefPrevention");
-        if ((griefpreventionPlugin != null) && griefpreventionPlugin.isEnabled()) {
-            final GriefPreventionFeature gpf = new GriefPreventionFeature(griefpreventionPlugin, this);
-            RegionHandler.regions.add(gpf);
-            MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into GriefPrevention");
-        }
-
-        final Plugin preciousstonesPlugin = getServer().getPluginManager().getPlugin("PreciousStones");
-        if ((preciousstonesPlugin != null) && preciousstonesPlugin.isEnabled()) {
-            final PreciousStonesFeature psf = new PreciousStonesFeature(preciousstonesPlugin, this);
-            RegionHandler.regions.add(psf);
-            MainUtil.sendMessage(null, "&8[&9WRG&8] &7Hooking into PreciousStones");
         }
         worldedit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);

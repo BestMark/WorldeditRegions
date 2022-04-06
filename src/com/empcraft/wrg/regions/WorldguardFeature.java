@@ -29,7 +29,6 @@ import com.empcraft.wrg.command.Untrust;
 import com.empcraft.wrg.object.AbstractRegion;
 import com.empcraft.wrg.object.ChunkLoc;
 import com.empcraft.wrg.object.CuboidRegionWrapper;
-import com.empcraft.wrg.util.FlagHandler;
 import com.empcraft.wrg.util.MainUtil;
 import com.empcraft.wrg.util.RegionHandler;
 import com.empcraft.wrg.util.VaultHandler;
@@ -212,15 +211,12 @@ public class WorldguardFeature extends AbstractRegion {
         final RegionManager manager = WorldguardFeature.worldguard.getRegionManager(player.getWorld());
         final ProtectedRegion myregion = manager.getRegion("__global__");
         final ApplicableRegionSet regions = manager.getApplicableRegions(player.getLocation());
-        if ((myregion != null) && (!FlagHandler.enabled || FlagHandler.hasFlag(regions)) && (myregion.isOwner(localplayer) || (myregion.isMember(localplayer) && MainUtil.hasPermission(player, "wrg.WorldguardFeature.worldguard.member")))) {
+        if ((myregion != null) && (myregion.isOwner(localplayer) || (myregion.isMember(localplayer) && MainUtil.hasPermission(player, "wrg.WorldguardFeature.worldguard.member")))) {
             final BlockVector pt1 = new BlockVector(Integer.MIN_VALUE, 0, Integer.MIN_VALUE);
             final BlockVector pt2 = new BlockVector(Integer.MAX_VALUE, 256, Integer.MAX_VALUE);
             return new ProtectedCuboidRegion("__global__-" + player.getWorld().getName(), pt1, pt2);
         }
         for (final ProtectedRegion region : regions) {
-            if (FlagHandler.enabled && (!FlagHandler.hasFlag(regions))) {
-                continue;
-            }
             if (region.isOwner(localplayer)) {
                 return region;
             }
